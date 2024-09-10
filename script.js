@@ -13,13 +13,53 @@ const specialDefense = document.getElementById("special-defense");
 const speed = document.getElementById("speed");
 const spriteContainer = document.getElementById('sprite-container');
 
-pokeApi = async (info) => {
+const pokeApi = async (info) => {
     try{
     const res = await fetch (`https://pokeapi-proxy.freecodecamp.rocks/api/pokemon/${info}`);
     const data = await res.json()
+
+    // Clear Previous Content
+    types.textContent = "";
+    spriteContainer.innerHTML = "";
+    pokemonName.textContent = "";
+    pokemonId.textContent = "";
+    weight.textContent = "";
+    height.textContent = "";
+    hp.textContent = "";
+    attack.textContent = "";
+    defense.textContent = "";
+    specialAttack.textContent = "";
+    specialDefense.textContent = "";
+    speed.textContent = "";
+
+
+    //DOM
+    pokemonName.textContent = data.name.toUpperCase();
+    pokemonId.textContent = `#${data.id}`;
+    weight.textContent = data.weight;
+    height.textContent = data.height;
+
+    //Stats
+    hp.textContent = data.stats[0].base_stat;
+    attack.textContent = data.stats[1].base_stat;
+    defense.textContent = data.stats[2].base_stat;
+    specialAttack.textContent = data.stats[3].base_stat;
+    specialDefense.textContent = data.stats[4].base_stat;
+    speed.textContent = data.stats[5].base_stat;
+
+    //Types
+    data.types.forEach(typeInfo => {
+        const typeName = typeInfo.type.name.toUpperCase();
+        types.textContent += `${typeName} `;
+      });
+
+    const img = document.createElement('img');
+    img.src = data.sprites.front_default; // Use the front default sprite
+    img.id = "sprite"; // Optional
+    spriteContainer.appendChild(img);
     }
     catch(err){
-      alert("Pokemon not found, please enter a valid ID or Name")
+      alert("Pokémon not found")
     }
     }
     
