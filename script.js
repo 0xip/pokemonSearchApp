@@ -50,7 +50,9 @@ const pokeApi = async (info) => {
     //Types
     data.types.forEach(typeInfo => {
         const typeName = typeInfo.type.name.toUpperCase();
-        types.textContent += `${typeName} `;
+        const typeSpan = document.createElement("span");
+        typeSpan.textContent = typeName;
+        types.appendChild(typeSpan);
       });
 
     const img = document.createElement('img');
